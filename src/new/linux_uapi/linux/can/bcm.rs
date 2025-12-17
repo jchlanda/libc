@@ -1,5 +1,6 @@
 //! Header: `linux/can/bcm.h`
 
+#[allow(unreachable_pub)]
 pub use crate::linux::can::*;
 
 s! {

@@ -152,7 +152,7 @@ cfg_if! {
         mod glibc;
         pub(crate) use glibc::*;
     } else if #[cfg(any(target_env = "musl", target_env = "ohos"))] {
-        // OhOS also uses the musl libc
+        // OhOS also use the musl libc
         mod musl;
         pub use musl::sched::*;
         pub(crate) use musl::*;

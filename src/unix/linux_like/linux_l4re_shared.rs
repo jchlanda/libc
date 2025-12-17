@@ -444,7 +444,7 @@ cfg_if! {
     if #[cfg(any(
         target_env = "gnu",
         target_env = "musl",
-        target_env = "ohos"
+        target_env = "ohos",
     ))] {
         pub const CODESET: crate::nl_item = 14;
         pub const CRNCYSTR: crate::nl_item = 0x4000F;
