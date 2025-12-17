@@ -119,7 +119,14 @@ extern "C" {
         shared: c_int,
     ) -> c_int;
 
-    #[cfg(any(target_os = "l4re", all(target_os = "linux", not(target_env = "ohos"))))]
+    #[cfg(any(
+        target_os = "l4re",
+        all(
+            target_os = "linux",
+            not(target_env = "ohos"),
+            not(target_env = "pauthtest")
+        )
+    ))]
     pub fn pthread_cancel(thread: crate::pthread_t) -> c_int;
 
     #[cfg(any(
@@ -200,7 +207,11 @@ extern "C" {
     #[cfg(any(target_os = "android", target_os = "l4re", target_os = "linux"))]
     pub fn pthread_kill(thread: crate::pthread_t, sig: c_int) -> c_int;
 
-    #[cfg(all(target_os = "linux", not(target_env = "ohos")))]
+    #[cfg(all(
+        target_os = "linux",
+        not(target_env = "ohos"),
+        not(target_env = "pauthtest")
+    ))]
     pub fn pthread_mutex_consistent(mutex: *mut crate::pthread_mutex_t) -> c_int;
 
     #[cfg(any(target_os = "android", target_os = "l4re", target_os = "linux"))]
@@ -227,7 +238,11 @@ extern "C" {
         pshared: *mut c_int,
     ) -> c_int;
 
-    #[cfg(all(target_os = "linux", not(target_env = "ohos")))]
+    #[cfg(all(
+        target_os = "linux",
+        not(target_env = "ohos"),
+        not(target_env = "pauthtest")
+    ))]
     pub fn pthread_mutexattr_getrobust(
         attr: *const crate::pthread_mutexattr_t,
         robustness: *mut c_int,
@@ -251,7 +266,11 @@ extern "C" {
         pshared: c_int,
     ) -> c_int;
 
-    #[cfg(all(target_os = "linux", not(target_env = "ohos")))]
+    #[cfg(all(
+        target_os = "linux",
+        not(target_env = "ohos"),
+        not(target_env = "pauthtest")
+    ))]
     pub fn pthread_mutexattr_setrobust(
         attr: *mut crate::pthread_mutexattr_t,
         robustness: c_int,

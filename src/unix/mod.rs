@@ -129,7 +129,7 @@ s! {
         #[cfg(all(target_arch = "x86_64", target_pointer_width = "32"))]
         __pad14: Padding<u32>,
 
-        #[cfg(any(target_env = "musl", target_env = "ohos", target_os = "emscripten"))]
+        #[cfg(any(target_env = "musl", target_env = "ohos", target_env = "pauthtest", target_os = "emscripten"))]
         __reserved: Padding<[c_long; 16]>,
     }
 
@@ -485,7 +485,7 @@ cfg_if! {
         #[link(name = "dl", cfg(not(target_feature = "crt-static")))]
         #[link(name = "c", cfg(not(target_feature = "crt-static")))]
         extern "C" {}
-    } else if #[cfg(any(target_env = "musl", target_env = "ohos"))] {
+    } else if #[cfg(any(target_env = "musl", target_env = "ohos", target_env = "pauthtest"))] {
         #[cfg_attr(
             feature = "rustc-dep-of-std",
             link(
@@ -1405,7 +1405,7 @@ extern "C" {
         any(
             all(
                 target_os = "linux",
-                not(any(target_env = "musl", target_env = "ohos"))
+                not(any(target_env = "musl", target_env = "ohos", target_env = "pauthtest"))
             ),
             target_os = "freebsd",
             target_os = "cygwin",
@@ -1428,12 +1428,18 @@ extern "C" {
     pub fn res_init() -> c_int;
 
     #[cfg_attr(target_os = "netbsd", link_name = "__gmtime_r50")]
-    #[cfg_attr(any(target_env = "musl", target_env = "ohos"), allow(deprecated))]
+    #[cfg_attr(
+        any(target_env = "musl", target_env = "ohos", target_env = "pauthtest"),
+        allow(deprecated)
+    )]
     // FIXME(time): for `time_t`
     #[cfg_attr(gnu_time_bits64, link_name = "__gmtime64_r")]
     pub fn gmtime_r(time_p: *const time_t, result: *mut tm) -> *mut tm;
     #[cfg_attr(target_os = "netbsd", link_name = "__localtime_r50")]
-    #[cfg_attr(any(target_env = "musl", target_env = "ohos"), allow(deprecated))]
+    #[cfg_attr(
+        any(target_env = "musl", target_env = "ohos", target_env = "pauthtest"),
+        allow(deprecated)
+    )]
     // FIXME(time): for `time_t`
     #[cfg_attr(gnu_time_bits64, link_name = "__localtime64_r")]
     pub fn localtime_r(time_p: *const time_t, result: *mut tm) -> *mut tm;
@@ -1442,33 +1448,51 @@ extern "C" {
         link_name = "mktime$UNIX2003"
     )]
     #[cfg_attr(target_os = "netbsd", link_name = "__mktime50")]
-    #[cfg_attr(any(target_env = "musl", target_env = "ohos"), allow(deprecated))]
+    #[cfg_attr(
+        any(target_env = "musl", target_env = "ohos", target_env = "pauthtest"),
+        allow(deprecated)
+    )]
     // FIXME: for `time_t`
     #[cfg_attr(gnu_time_bits64, link_name = "__mktime64")]
     pub fn mktime(tm: *mut tm) -> time_t;
     #[cfg_attr(target_os = "netbsd", link_name = "__time50")]
-    #[cfg_attr(any(target_env = "musl", target_env = "ohos"), allow(deprecated))]
+    #[cfg_attr(
+        any(target_env = "musl", target_env = "ohos", target_env = "pauthtest"),
+        allow(deprecated)
+    )]
     // FIXME: for `time_t`
     #[cfg_attr(gnu_time_bits64, link_name = "__time64")]
     pub fn time(time: *mut time_t) -> time_t;
     #[cfg_attr(target_os = "netbsd", link_name = "__gmtime50")]
-    #[cfg_attr(any(target_env = "musl", target_env = "ohos"), allow(deprecated))]
+    #[cfg_attr(
+        any(target_env = "musl", target_env = "ohos", target_env = "pauthtest"),
+        allow(deprecated)
+    )]
     // FIXME(time): for `time_t`
     #[cfg_attr(gnu_time_bits64, link_name = "__gmtime64")]
     pub fn gmtime(time_p: *const time_t) -> *mut tm;
     #[cfg_attr(target_os = "netbsd", link_name = "__locatime50")]
-    #[cfg_attr(any(target_env = "musl", target_env = "ohos"), allow(deprecated))]
+    #[cfg_attr(
+        any(target_env = "musl", target_env = "ohos", target_env = "pauthtest"),
+        allow(deprecated)
+    )]
     // FIXME(time): for `time_t`
     #[cfg_attr(gnu_time_bits64, link_name = "__localtime64")]
     pub fn localtime(time_p: *const time_t) -> *mut tm;
     #[cfg_attr(target_os = "netbsd", link_name = "__difftime50")]
-    #[cfg_attr(any(target_env = "musl", target_env = "ohos"), allow(deprecated))]
+    #[cfg_attr(
+        any(target_env = "musl", target_env = "ohos", target_env = "pauthtest"),
+        allow(deprecated)
+    )]
     // FIXME(time): for `time_t`
     #[cfg_attr(gnu_time_bits64, link_name = "__difftime64")]
     pub fn difftime(time1: time_t, time0: time_t) -> c_double;
     #[cfg(not(target_os = "aix"))]
     #[cfg_attr(target_os = "netbsd", link_name = "__timegm50")]
-    #[cfg_attr(any(target_env = "musl", target_env = "ohos"), allow(deprecated))]
+    #[cfg_attr(
+        any(target_env = "musl", target_env = "ohos", target_env = "pauthtest"),
+        allow(deprecated)
+    )]
     // FIXME(time): for `time_t`
     #[cfg_attr(gnu_time_bits64, link_name = "__timegm64")]
     pub fn timegm(tm: *mut crate::tm) -> time_t;

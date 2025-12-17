@@ -147,8 +147,8 @@ cfg_if! {
     ))] {
         mod glibc;
         pub(crate) use glibc::*;
-    } else if #[cfg(any(target_env = "musl", target_env = "ohos"))] {
-        // OhOS also uses the musl libc
+    } else if #[cfg(any(target_env = "musl", target_env = "ohos", target_env = "pauthtest"))] {
+        // OhOS and PauthTest also use the musl libc
         mod musl;
         pub(crate) use musl::*;
     } else if #[cfg(target_env = "newlib")] {
@@ -201,7 +201,7 @@ cfg_if! {
 
 // Per-env headers we export
 cfg_if! {
-    if #[cfg(any(target_env = "musl", target_env = "ohos"))] {
+    if #[cfg(any(target_env = "musl", target_env = "ohos", target_env = "pauthtest"))] {
         pub use sys::socket::*;
     }
 }

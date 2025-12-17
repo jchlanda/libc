@@ -53,7 +53,7 @@ pub use crate::new::common::posix::pthread::{
     pthread_spin_trylock,
     pthread_spin_unlock,
 };
-#[cfg(not(target_env = "ohos"))]
+#[cfg(not(any(target_env = "ohos", target_env = "pauthtest")))]
 pub use crate::new::common::posix::pthread::{
     pthread_cancel,
     pthread_mutex_consistent,
