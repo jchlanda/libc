@@ -1,5 +1,6 @@
 //! Header: `linux/can/raw.h`
 
+#[allow(unreachable_pub)]
 pub use crate::linux::can::*;
 
 pub const SOL_CAN_RAW: c_int = SOL_CAN_BASE + CAN_RAW;

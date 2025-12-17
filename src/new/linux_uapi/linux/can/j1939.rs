@@ -1,5 +1,6 @@
 //! `linux/can/j1939.h`
 
+#[allow(unreachable_pub)]
 pub use crate::linux::can::*;
 
 pub const J1939_MAX_UNICAST_ADDR: c_uchar = 0xfd;
