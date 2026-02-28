@@ -140,6 +140,7 @@ s! {
     }
 
     #[repr(align(8))]
+    #[cfg(not(target_env = "pauthtest"))]
     pub struct fanotify_event_metadata {
         pub event_len: c_uint,
         pub vers: c_uchar,

@@ -1,6 +1,6 @@
 //! `linux/can/raw.h`
 
-pub use crate::linux::can::*;
+pub(crate) use crate::linux::can::*;
 
 pub const SOL_CAN_RAW: c_int = SOL_CAN_BASE + CAN_RAW;
 pub const CAN_RAW_FILTER_MAX: c_int = 512;

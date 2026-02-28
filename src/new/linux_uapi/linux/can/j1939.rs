@@ -1,6 +1,6 @@
 //! `linux/can/j1939.h`
 
-pub use crate::linux::can::*;
+pub(crate) use crate::linux::can::*;
 
 pub const J1939_MAX_UNICAST_ADDR: c_uchar = 0xfd;
 pub const J1939_IDLE_ADDR: c_uchar = 0xfe;

@@ -646,9 +646,9 @@ s! {
         __pgrp: crate::pid_t,
         __sd: crate::sigset_t,
         __ss: crate::sigset_t,
-        #[cfg(any(target_env = "musl", target_env = "ohos"))]
+        #[cfg(any(target_env = "musl", target_env = "ohos", target_env = "pauthtest"))]
         __prio: c_int,
-        #[cfg(not(any(target_env = "musl", target_env = "ohos")))]
+        #[cfg(not(any(target_env = "musl", target_env = "ohos", target_env = "pauthtest")))]
         __sp: crate::sched_param,
         __policy: c_int,
         __pad: [c_int; 16],
@@ -1154,13 +1154,14 @@ s! {
     }
 
     #[cfg_attr(
-        any(target_env = "musl", target_env = "ohos", target_pointer_width = "32"),
+        any(target_env = "musl", target_env = "ohos", target_env = "pauthtest", target_pointer_width = "32"),
         repr(align(4))
     )]
     #[cfg_attr(
         all(
             not(target_env = "musl"),
             not(target_env = "ohos"),
+            not(target_env = "pauthtest"),
             target_pointer_width = "64"
         ),
         repr(align(8))
@@ -1555,28 +1556,28 @@ s_no_extra_traits! {
 
     #[cfg_attr(
         all(
-            any(target_env = "musl", target_env = "ohos"),
+            any(target_env = "musl", target_env = "ohos", target_env = "pauthtest"),
             target_pointer_width = "32"
         ),
         repr(align(4))
     )]
     #[cfg_attr(
         all(
-            any(target_env = "musl", target_env = "ohos"),
+            any(target_env = "musl", target_env = "ohos", target_env = "pauthtest"),
             target_pointer_width = "64"
         ),
         repr(align(8))
     )]
     #[cfg_attr(
         all(
-            not(any(target_env = "musl", target_env = "ohos")),
+            not(any(target_env = "musl", target_env = "ohos", target_env = "pauthtest")),
             target_arch = "x86"
         ),
         repr(align(4))
     )]
     #[cfg_attr(
         all(
-            not(any(target_env = "musl", target_env = "ohos")),
+            not(any(target_env = "musl", target_env = "ohos", target_env = "pauthtest")),
             not(target_arch = "x86")
         ),
         repr(align(8))
@@ -2067,7 +2068,8 @@ cfg_if! {
     if #[cfg(any(
         target_env = "gnu",
         target_env = "musl",
-        target_env = "ohos"
+        target_env = "ohos",
+        target_env = "pauthtest"
     ))] {
         pub const ABDAY_1: crate::nl_item = 0x20000;
         pub const ABDAY_2: crate::nl_item = 0x20001;
@@ -5985,7 +5987,7 @@ safe_f! {
 
 cfg_if! {
     if #[cfg(all(
-        any(target_env = "gnu", target_env = "musl", target_env = "ohos"),
+        any(target_env = "gnu", target_env = "musl", target_env = "ohos", target_env = "pauthtest"),
         any(target_arch = "x86_64", target_arch = "x86")
     ))] {
         extern "C" {
@@ -5996,7 +5998,7 @@ cfg_if! {
 }
 
 cfg_if! {
-    if #[cfg(all(not(target_env = "uclibc"), not(target_env = "ohos")))] {
+    if #[cfg(all(not(target_env = "uclibc"), not(target_env = "ohos"), not(target_env = "pauthtest")))] {
         extern "C" {
             #[cfg_attr(gnu_file_offset_bits64, link_name = "aio_read64")]
             pub fn aio_read(aiocbp: *mut aiocb) -> c_int;
@@ -6077,7 +6079,7 @@ cfg_if! {
 
 // These functions are not available on OpenHarmony
 cfg_if! {
-    if #[cfg(not(target_env = "ohos"))] {
+    if #[cfg(all(not(target_env = "ohos"), not(target_env = "pauthtest")))] {
         extern "C" {
             // Only `getspnam_r` is implemented for musl, out of all of the reenterant
             // functions from `shadow.h`.
@@ -6144,7 +6146,7 @@ cfg_if! {
 
 extern "C" {
     #[cfg_attr(
-        not(any(target_env = "musl", target_env = "ohos")),
+        not(any(target_env = "musl", target_env = "ohos", target_env = "pauthtest")),
         link_name = "__xpg_strerror_r"
     )]
     pub fn strerror_r(errnum: c_int, buf: *mut c_char, buflen: size_t) -> c_int;
@@ -6817,7 +6819,7 @@ cfg_if! {
     if #[cfg(target_env = "uclibc")] {
         mod uclibc;
         pub use self::uclibc::*;
-    } else if #[cfg(any(target_env = "musl", target_env = "ohos"))] {
+    } else if #[cfg(any(target_env = "musl", target_env = "ohos", target_env = "pauthtest"))] {
         mod musl;
         pub use self::musl::*;
     } else if #[cfg(target_env = "gnu")] {
